@@ -1,6 +1,5 @@
-# source("supporting_funs/get_reads_20161116.R")
 # only consider lens below 99% percentile
-get_fragment_length_dist = function(gene_models, rowID, num_thre = 100, 
+get_fragment_length_dist = function(gene_models, rowID, num_thre = 100,
                              bam_path, strandmode = 0, quant, ncores){
   print("start estimating mean and sd of fragment length ...")
   flag = 1
@@ -33,7 +32,7 @@ get_fragment_length_dist = function(gene_models, rowID, num_thre = 100,
     fglensList = fglensList[!sapply(fglensList, is.null)]
     fglens = c(fglens, unlist(fglensList))
   }
-  
+
   print(paste("number of genes used:", length(fglensList)))
   fglens = unlist(fglensList)
   if(length(fglens) < 2000){
@@ -46,7 +45,7 @@ get_fragment_length_dist = function(gene_models, rowID, num_thre = 100,
   print(paste("number of fragments:", length(fglens)))
   print(paste("longest fragments:", max(fglens)))
   print(paste("shortest fragments:", min(fglens)))
-  
+
   mean = mean(fglens)
   sd = sd(fglens)
   cutoff = range(fglens, na.rm = TRUE)

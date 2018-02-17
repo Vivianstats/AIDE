@@ -1,8 +1,3 @@
-# 1202 Update notes
-# add a column to denote whether read is from "+" or "-"
-
-# 1209 Update notes
-# account for unstranded vs. stranded library
 
 # given a gene model
 # return a data.frame readsTxcoords

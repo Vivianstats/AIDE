@@ -1,6 +1,3 @@
-# 0221 Notes
-# modified from reads_distribution/support_funs_get_reads.R
-
 # given a gene model
 # return a matrix reads
 # return NULL if number of reads does not reach num_thre

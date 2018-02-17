@@ -1,20 +1,4 @@
 # step one: no prior info; no regularization
-# est_alp_one = function(Prob, eff_txs_len, J, init, nreads, iter = 50, digits = 4){
-#   Hmat = sweep(Prob, MARGIN = 2, 1/eff_txs_len, FUN = "*")
-#   alp_crr = init
-#   ii = 0
-#   while(ii < iter){
-#     denom = Hmat %*% matrix(alp_crr, ncol = 1)
-#     alp_crr = sapply(1:J, function(k){
-#       sum(Hmat[,k]*alp_crr[k] / denom, na.rm = TRUE)/ nreads
-#     })
-#     ii = ii+1
-#   }
-#   return(round(alp_crr, digits = digits))
-# }
-
-
-
 est_alp_one = function(H_mat, J, init, nreads, iter = 500){
   alp_crr = init
   ii = 0

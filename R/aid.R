@@ -201,7 +201,6 @@ aid = function(gtf_path, bam_path, fasta_path, out_dir, readLen, strandmode = 0,
     set.seed(id)
     gc()
     geneName = geneNames[id]
-    if(!(geneName %in% genes)){return(NULL)}
     cgene = gene_models[[geneName]]
 
     #t1 = proc.time()
