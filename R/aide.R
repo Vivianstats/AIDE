@@ -83,7 +83,7 @@ main = function(cgene, bam_path, bamTotal, readLen, cutoff, readm, readsd,
 }
 
 
-#' use AID for transcript reconstruction and quantification
+#' use AIDE for transcript reconstruction and quantification
 #'
 #' @param gtf_path A character specifying the full path of the GTF file.
 #' @param bam_path A character specifying full path of the BAM file.
@@ -102,7 +102,7 @@ main = function(cgene, bam_path, bamTotal, readLen, cutoff, readm, readsd,
 #' Default is 0.01/(number of genes estimated).
 #' @param ncores A integer specifying the number of cores used for parallel computation.
 #' Default is 5.
-#' @return \code{aid} saves a GTF file with reconstructed transcripts and their FPKM values to
+#' @return \code{aide} saves a GTF file with reconstructed transcripts and their FPKM values to
 #' x to the directory \code{out_dir}.
 #' @export
 #' @import parallel
@@ -122,11 +122,11 @@ main = function(cgene, bam_path, bamTotal, readLen, cutoff, readm, readsd,
 #' @import np
 #' @importFrom stats fitted quantile setNames
 #' @importFrom utils stack write.table
-#' @useDynLib AID
+#' @useDynLib AIDE
 #' @importFrom Rcpp sourceCpp
 #' @author Wei Vivian Li, \email{liw@ucla.edu}
 #' @author Jingyi Jessica Li, \email{jli@stat.ucla.edu}
-aid = function(gtf_path, bam_path, fasta_path, out_dir, readLen, strandmode = 0, genes = NULL, pval = NULL, ncores = 5){
+aide = function(gtf_path, bam_path, fasta_path, out_dir, readLen, strandmode = 0, genes = NULL, pval = NULL, ncores = 5){
   options(np.messsages = FALSE)
   set.seed(1)
 

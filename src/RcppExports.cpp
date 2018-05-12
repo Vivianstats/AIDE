@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // ifExonPairInTranscript
 arma::imat ifExonPairInTranscript(arma::imat exonPair, arma::imat Iso_mat);
-RcppExport SEXP _AID_ifExonPairInTranscript(SEXP exonPairSEXP, SEXP Iso_matSEXP) {
+RcppExport SEXP _AIDE_ifExonPairInTranscript(SEXP exonPairSEXP, SEXP Iso_matSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -20,7 +20,7 @@ END_RCPP
 }
 // est_alp_forward
 arma::vec est_alp_forward(arma::mat H_mat, int J, arma::vec init, double nreads, int iter);
-RcppExport SEXP _AID_est_alp_forward(SEXP H_matSEXP, SEXP JSEXP, SEXP initSEXP, SEXP nreadsSEXP, SEXP iterSEXP) {
+RcppExport SEXP _AIDE_est_alp_forward(SEXP H_matSEXP, SEXP JSEXP, SEXP initSEXP, SEXP nreadsSEXP, SEXP iterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -35,7 +35,7 @@ END_RCPP
 }
 // get_Loglike
 double get_Loglike(arma::mat H_mat, arma::vec alp_hat);
-RcppExport SEXP _AID_get_Loglike(SEXP H_matSEXP, SEXP alp_hatSEXP) {
+RcppExport SEXP _AIDE_get_Loglike(SEXP H_matSEXP, SEXP alp_hatSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -47,7 +47,7 @@ END_RCPP
 }
 // forward_LRT
 arma::uvec forward_LRT(int maxSteps, arma::uvec Ind_check, arma::mat Hmat, int nreads, float sig_fward, double loglike_init);
-RcppExport SEXP _AID_forward_LRT(SEXP maxStepsSEXP, SEXP Ind_checkSEXP, SEXP HmatSEXP, SEXP nreadsSEXP, SEXP sig_fwardSEXP, SEXP loglike_initSEXP) {
+RcppExport SEXP _AIDE_forward_LRT(SEXP maxStepsSEXP, SEXP Ind_checkSEXP, SEXP HmatSEXP, SEXP nreadsSEXP, SEXP sig_fwardSEXP, SEXP loglike_initSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -63,7 +63,7 @@ END_RCPP
 }
 // forward_LRT_v2
 arma::uvec forward_LRT_v2(int maxSteps, arma::uvec Ind_check, arma::mat Hmat, int nreads, float sig_fward, double loglike_init);
-RcppExport SEXP _AID_forward_LRT_v2(SEXP maxStepsSEXP, SEXP Ind_checkSEXP, SEXP HmatSEXP, SEXP nreadsSEXP, SEXP sig_fwardSEXP, SEXP loglike_initSEXP) {
+RcppExport SEXP _AIDE_forward_LRT_v2(SEXP maxStepsSEXP, SEXP Ind_checkSEXP, SEXP HmatSEXP, SEXP nreadsSEXP, SEXP sig_fwardSEXP, SEXP loglike_initSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -79,7 +79,7 @@ END_RCPP
 }
 // stepwise_LRT
 arma::uvec stepwise_LRT(int maxSteps, arma::uvec Ind_check, arma::mat Hmat, int nreads, float sig_fward, float sig_bward, double loglike_init);
-RcppExport SEXP _AID_stepwise_LRT(SEXP maxStepsSEXP, SEXP Ind_checkSEXP, SEXP HmatSEXP, SEXP nreadsSEXP, SEXP sig_fwardSEXP, SEXP sig_bwardSEXP, SEXP loglike_initSEXP) {
+RcppExport SEXP _AIDE_stepwise_LRT(SEXP maxStepsSEXP, SEXP Ind_checkSEXP, SEXP HmatSEXP, SEXP nreadsSEXP, SEXP sig_fwardSEXP, SEXP sig_bwardSEXP, SEXP loglike_initSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -96,16 +96,16 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_AID_ifExonPairInTranscript", (DL_FUNC) &_AID_ifExonPairInTranscript, 2},
-    {"_AID_est_alp_forward", (DL_FUNC) &_AID_est_alp_forward, 5},
-    {"_AID_get_Loglike", (DL_FUNC) &_AID_get_Loglike, 2},
-    {"_AID_forward_LRT", (DL_FUNC) &_AID_forward_LRT, 6},
-    {"_AID_forward_LRT_v2", (DL_FUNC) &_AID_forward_LRT_v2, 6},
-    {"_AID_stepwise_LRT", (DL_FUNC) &_AID_stepwise_LRT, 7},
+    {"_AIDE_ifExonPairInTranscript", (DL_FUNC) &_AIDE_ifExonPairInTranscript, 2},
+    {"_AIDE_est_alp_forward", (DL_FUNC) &_AIDE_est_alp_forward, 5},
+    {"_AIDE_get_Loglike", (DL_FUNC) &_AIDE_get_Loglike, 2},
+    {"_AIDE_forward_LRT", (DL_FUNC) &_AIDE_forward_LRT, 6},
+    {"_AIDE_forward_LRT_v2", (DL_FUNC) &_AIDE_forward_LRT_v2, 6},
+    {"_AIDE_stepwise_LRT", (DL_FUNC) &_AIDE_stepwise_LRT, 7},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_AID(DllInfo *dll) {
+RcppExport void R_init_AIDE(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }
