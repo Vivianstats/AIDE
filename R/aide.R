@@ -1,8 +1,5 @@
-
-
-
 main = function(cgene, bam_path, bamTotal, readLen, cutoff, readm, readsd,
-                sig_fward, sig_bward, starts_data, genome, bws, strandmode){
+                sig_fward, sig_bward, starts_data, genome, bws, strandmode, ne = 25){
   n = cgene$exonNum
   exon_start = cgene$exonStarts
   exon_end = cgene$exonEnds
@@ -35,7 +32,7 @@ main = function(cgene, bam_path, bamTotal, readLen, cutoff, readm, readsd,
       IsoM = rbind(IsoM, IsoM_annt)
       IsoM = unique(IsoM, MARGIN = 1)
     }
-  }else if (n <= 20){
+  }else if (n <= ne){
     IsoM = try(filter_Isomat_by_reads_nlarge(reads, nExon=n, exon_len, readLen, cutoff, nthre = n-6),
                silent = TRUE)
     if (class(IsoM) == "matrix"){
@@ -78,6 +75,30 @@ main = function(cgene, bam_path, bamTotal, readLen, cutoff, readm, readsd,
 
   res = list(txs = txs, Ind_check = result$Ind_check, alpha_check = result$alpha_check,
              Ind_annt = Ind_annt, nExon = n,
+             rpkm_gene = rpkm_gene, rpkm = rpkm)
+  return(res)
+}
+
+main_one = function(cgene, bam_path, bamTotal, readLen, strandmode){
+  n = cgene$exonNum
+  exon_start = cgene$exonStarts
+  exon_end = cgene$exonEnds
+  exon_len = cgene$exonLens
+
+  reads = get_reads_from_bam(cgene, num_thre = 2, bam_path, strandmode = strandmode)
+  if (is.null(reads)) return(NULL)
+
+  rpkm_gene = 10^9 * 2 * nrow(reads) / ((sum(exon_len)-readLen) * bamTotal)
+
+  J_annt = 1
+
+  txs = cgene$txs[1]
+  txslen = sapply(txs, function(x) sum(cgene$exonLens[x]))
+  rpkm = rpkm_gene
+
+
+  res = list(txs = txs, Ind_check = 1, alpha_check = 1,
+             Ind_annt = 1, nExon = 1,
              rpkm_gene = rpkm_gene, rpkm = rpkm)
   return(res)
 }
@@ -145,9 +166,10 @@ aide = function(gtf_path, bam_path, fasta_path, out_dir, readLen, strandmode = 0
   rowID = which(sapply(gene_models, function(x) x$exonNum) == 1)
 
   if(is.null(genes)){
-    run_genes = 1:length(geneNames)
+    #run_genes = 1:length(geneNames)
+    run_genes = 1:length(gene_models)
   }else{
-    run_genes = match(genes, geneNames)
+    run_genes = match(genes, names(gene_models))
     if(sum(!is.na(run_genes))==0) stop("No genes match the GTF file!")
     if(sum(is.na(run_genes))>0){
       print(paste(sum(is.na(run_genes)), "genes are not present in the GTF file!"))}
@@ -195,29 +217,32 @@ aide = function(gtf_path, bam_path, fasta_path, out_dir, readLen, strandmode = 0
   }
 
   print("reconstructing transcripts ...")
-  if(is.null(pval)){pval = 0.01/length(run_genes)}
+  if(is.null(pval)){pval = 0.01/length(geneNames)}
 
   LRT_res = mclapply(run_genes, function(id){
     set.seed(id)
     gc()
-    geneName = geneNames[id]
-    cgene = gene_models[[geneName]]
 
-    #t1 = proc.time()
-    result = try(main(cgene, bam_path, bamTotal, readLen, cutoff,
-                      readm, readsd,
-                      sig_fward = pval, sig_bward = pval,
-                      starts_data, genome, bws, strandmode), silent = TRUE)
+    cgene = gene_models[[id]]
+    if(cgene$exonNum == 1){
+      result = try(main_one(cgene, bam_path, bamTotal, readLen, strandmode), silent = TRUE)
+    }else{
+      result = try(main(cgene, bam_path, bamTotal, readLen, cutoff,
+                        readm, readsd,
+                        sig_fward = pval, sig_bward = pval,
+                        starts_data, genome, bws, strandmode), silent = TRUE)
+    }
+
     save(result, file = paste0(tp_dir, "data/", id, ".RData"))
     #telap = round((proc.time()-t1)["elapsed"], 2)
-    #print(paste("gene:", id,";", telap))
+
     print(paste("gene:", id))
     return(0)
   }, mc.cores = ncores)
 
   print("writing results ...")
   gtf_name = paste0(out_dir, "transcripts.gtf")
-  rdata_to_gtf(tp_dir, geneNames, gene_models, gtf_name, ncores)
+  rdata_to_gtf(tp_dir, gene_models, gtf_name, ncores)
   return(0)
 }
 

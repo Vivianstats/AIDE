@@ -1,6 +1,6 @@
 Package: AIDE
 Title: Annotation-based transcript reconstruction and quantification 
-Version: 0.0.1
+Version: 0.0.2
 Author: Wei Vivian Li, Jingyi Jessica Li
 Maintainer: Wei Vivian Li <liw@ucla.edu>
 Description: What the package does (one paragraph).
