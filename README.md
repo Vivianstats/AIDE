@@ -1,11 +1,15 @@
 AIDE: annotation-assisted isoform discovery and quantification from RNA-seq data
 ================
 Wei Vivian Li, Jingyi Jessica Li
-2018-05-11
+2018-11-12
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 Latest News
 -----------
+
+> 2018/11/12:
+
+-   Version 0.0.2 is released!
 
 > 2018/04/08:
 
