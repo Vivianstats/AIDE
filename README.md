@@ -18,7 +18,7 @@ Latest News
 Introduction
 ------------
 
-AIDE is a statistical method which identifies full-length mRNA isoforms from a novel perspective: using the likelihood ratio test to find novel isoforms in a stepwise manner given annotated isoforms, by prioritizing and selectively borrowing information from the annotated isoforms.
+AIDE is a statistical method which identifies full-length mRNA isoforms from a novel perspective: using the likelihood ratio test to find novel isoforms in a stepwise manner given annotated isoforms, by prioritizing and selectively borrowing information from the annotated isoforms. Please refer to our preprint at [Biorxiv](https://www.biorxiv.org/content/early/2018/10/07/437350) for detailed description of our method.
 
 Any suggestions on the package are welcome! For technical problems, please report to [Issues](https://github.com/Vivianstats/AID/issues). For suggestions and comments on the method, please contact Wei (<liw@ucla.edu>) or Dr. Jessica Li (<jli@stat.ucla.edu>).
 
