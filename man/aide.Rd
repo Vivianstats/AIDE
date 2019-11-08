@@ -5,7 +5,8 @@
 \title{use AIDE for transcript reconstruction and quantification}
 \usage{
 aide(gtf_path, bam_path, fasta_path, out_dir, readLen, strandmode = 0,
-  genes = NULL, pval = NULL, ncores = 5)
+  genes = NULL, pval = NULL, ncores = 5, mode = "regular",
+  ne = 25, gene_model_path = NULL, flag = 0)
 }
 \arguments{
 \item{gtf_path}{A character specifying the full path of the GTF file.}
@@ -31,8 +32,16 @@ meaning that all genes in the GTF file will be estimated.}
 \item{pval}{An number specifying the threshold on p-values used in the likelihood ratio tests.
 Default is 0.01/(number of genes estimated).}
 
-\item{ncores}{A integer specifying the number of cores used for parallel computation.
+\item{ncores}{An integer specifying the number of cores used for parallel computation.
 Default is 5.}
+
+\item{mode}{An character specifying running mode (used in tests). Default is "regular".}
+
+\item{ne}{An integer indicating complex genes.}
+
+\item{gene_model_path}{An character specifying path to gene models.}
+
+\item{flag}{Used in tests.}
 }
 \value{
 \code{aide} saves a GTF file with reconstructed transcripts and their FPKM values to

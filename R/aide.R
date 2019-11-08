@@ -42,42 +42,6 @@ main = function(cgene, bam_path, bamTotal, readLen, cutoff, readm, readsd,
         IsoM = unique(IsoM, MARGIN = 1)
       }else{ IsoM = IsoM_annt}
     }else{ IsoM = IsoM_annt }
-
-    Ind_annt = sapply(1:J_annt, function(i){
-      comp = sweep(IsoM, MARGIN = 2, IsoM_annt[i,], FUN = "-")
-      tp = which(rowSums(abs(comp)) == 0)[1]
-      if (length(tp ) == 0){return(NA)}
-      return(tp)
-    })
-
-    if(nrow(IsoM) == 1){
-      result = stepwise_LRT_wrap_single(Ind_annt)
-    }else{
-      if(is.null(bws)){
-        Hmat = calculate_H_skipbias(reads, Iso_mat = IsoM, exon_len, readLen, readm, readsd, cutoff)
-      }else{
-        Hmat = calculate_H(reads, Iso_mat = IsoM, exon_len, readLen, readm, readsd,
-                           cutoff, bws, genome, cgene, starts_data)
-      }
-      Hmat[is.nan(Hmat)] = 0
-      ### LRT
-      nreads = nrow(reads)
-      gc()
-      result = stepwise_LRT_wrap(J_annt, Ind_annt, Hmat, nExon = n,
-                                 nreads, sig_fward, sig_bward)
-    }
-
-    txs = IsoM[result$Ind_check, , drop = FALSE]
-    txs = lapply(1:nrow(txs), function(i){
-      which(txs[i, ] == 1)
-    })
-    txslen = sapply(txs, function(x) sum(cgene$exonLens[x]))
-    rpkm = 10^9 * nrow(reads) * result$alpha_check / ((txslen-readLen) * bamTotal)
-
-
-    res = list(txs = txs, Ind_check = result$Ind_check, alpha_check = result$alpha_check,
-               Ind_annt = Ind_annt, nExon = n,
-               rpkm_gene = rpkm_gene, rpkm = rpkm)
   }
 
   if(mode == "strict"){
@@ -104,44 +68,45 @@ main = function(cgene, bam_path, bamTotal, readLen, cutoff, readm, readsd,
     for(rr in 1:nrow(mt)){mt[rr, fe[rr]] = 1}
     IsoM = rbind(IsoM, mt)
     IsoM = unique(IsoM, MARGIN = 1)
-
-    Ind_annt = sapply(1:J_annt, function(i){
-      comp = sweep(IsoM, MARGIN = 2, IsoM_annt[i,], FUN = "-")
-      tp = which(rowSums(abs(comp)) == 0)[1]
-      if (length(tp ) == 0){return(NA)}
-      return(tp)
-    })
-
-    if(nrow(IsoM) == 1){
-      result = stepwise_LRT_wrap_single(Ind_annt)
-    }else{
-      if(is.null(bws)){
-        Hmat = calculate_H_skipbias(reads, Iso_mat = IsoM, exon_len, readLen, readm, readsd, cutoff)
-      }else{
-        Hmat = calculate_H(reads, Iso_mat = IsoM, exon_len, readLen, readm, readsd,
-                           cutoff, bws, genome, cgene, starts_data)
-      }
-      Hmat[is.nan(Hmat)] = 0
-      ### LRT
-      nreads = nrow(reads)
-      gc()
-      result = stepwise_LRT_wrap(J_annt, Ind_annt, Hmat, nExon = n,
-                                 nreads, sig_fward, sig_bward)
-    }
-
-    txs = IsoM[result$Ind_check, , drop = FALSE]
-    txs = lapply(1:nrow(txs), function(i){
-      which(txs[i, ] == 1)
-    })
-    txslen = sapply(txs, function(x) sum(cgene$exonLens[x]))
-    rpkm = 10^9 * nrow(reads) * result$alpha_check / ((txslen-readLen) * bamTotal)
-
-
-    res = list(txs = txs, Ind_check = result$Ind_check, alpha_check = result$alpha_check,
-               Ind_annt = Ind_annt, nExon = n,
-               rpkm_gene = rpkm_gene, rpkm = rpkm)
   }
 
+  if(mode == "s1"){IsoM = IsoM_annt}
+
+  Ind_annt = sapply(1:J_annt, function(i){
+    comp = sweep(IsoM, MARGIN = 2, IsoM_annt[i,], FUN = "-")
+    tp = which(rowSums(abs(comp)) == 0)[1]
+    if (length(tp ) == 0){return(NA)}
+    return(tp)
+  })
+
+  if(nrow(IsoM) == 1){
+    result = stepwise_LRT_wrap_single(Ind_annt)
+  }else{
+    if(is.null(bws)){
+      Hmat = calculate_H_skipbias(reads, Iso_mat = IsoM, exon_len, readLen, readm, readsd, cutoff)
+    }else{
+      Hmat = calculate_H(reads, Iso_mat = IsoM, exon_len, readLen, readm, readsd,
+                         cutoff, bws, genome, cgene, starts_data)
+    }
+    Hmat[is.nan(Hmat)] = 0
+    ### LRT
+    nreads = nrow(reads)
+    gc()
+    result = stepwise_LRT_wrap(J_annt, Ind_annt, Hmat, nExon = n,
+                               nreads, sig_fward, sig_bward)
+  }
+
+  txs = IsoM[result$Ind_check, , drop = FALSE]
+  txs = lapply(1:nrow(txs), function(i){
+    which(txs[i, ] == 1)
+  })
+  txslen = sapply(txs, function(x) sum(cgene$exonLens[x]))
+  rpkm = 10^9 * nrow(reads) * result$alpha_check / ((txslen-readLen) * bamTotal)
+
+
+  res = list(txs = txs, Ind_check = result$Ind_check, alpha_check = result$alpha_check,
+             Ind_annt = Ind_annt, nExon = n,
+             rpkm_gene = rpkm_gene, rpkm = rpkm)
 
   return(res)
 }
@@ -190,8 +155,10 @@ main_one = function(cgene, bam_path, bamTotal, readLen, strandmode){
 #' Default is 0.01/(number of genes estimated).
 #' @param ncores An integer specifying the number of cores used for parallel computation.
 #' Default is 5.
-#' @param mode An character specifying running mode. Default is "regular".
+#' @param mode An character specifying running mode (used in tests). Default is "regular".
 #' @param ne An integer indicating complex genes.
+#' @param gene_model_path An character specifying path to gene models.
+#' @param flag Used in tests.
 #' @return \code{aide} saves a GTF file with reconstructed transcripts and their FPKM values to
 #' x to the directory \code{out_dir}.
 #' @export
@@ -205,8 +172,7 @@ main_one = function(cgene, bam_path, bamTotal, readLen, strandmode){
 #' @import S4Vectors
 #' @importFrom GenomicRanges GRanges disjoin
 #' @import Biostrings
-#' @import rbamtools
-#' @importFrom Rsamtools ScanBamParam
+#' @importFrom Rsamtools ScanBamParam countBam
 #' @importFrom GenomeInfoDb dropSeqlevels
 #' @importFrom igraph all_simple_paths graph_from_adjacency_matrix
 #' @import np
@@ -217,7 +183,7 @@ main_one = function(cgene, bam_path, bamTotal, readLen, strandmode){
 #' @author Wei Vivian Li, \email{liw@ucla.edu}
 #' @author Jingyi Jessica Li, \email{jli@stat.ucla.edu}
 aide = function(gtf_path, bam_path, fasta_path, out_dir, readLen, strandmode = 0, genes = NULL, pval = NULL, ncores = 5,
-                mode = "regular", ne = 25){
+                mode = "regular", ne = 25, gene_model_path = NULL, flag = 0){
   options(np.messsages = FALSE)
   set.seed(1)
 
@@ -227,10 +193,14 @@ aide = function(gtf_path, bam_path, fasta_path, out_dir, readLen, strandmode = 0
 
   print("extracting gene models from GTF ...")
   gene_models = NULL
+  if(is.null(gene_model_path)){
   save_txdb_path = paste0(tp_dir, "gene_models.RData")
   gtf_to_gene_models(gtf_path, save_txdb_path, ncores)
-
   load(paste0(tp_dir, "gene_models.RData"))
+  }else{
+    load(gene_model_path)
+  }
+  gc()
   exonNum = sapply(gene_models, function(x) x$exonNum)
   geneNames = names(gene_models[exonNum >= 2])
   rowID = which(sapply(gene_models, function(x) x$exonNum) == 1)
@@ -246,10 +216,14 @@ aide = function(gtf_path, bam_path, fasta_path, out_dir, readLen, strandmode = 0
     run_genes = run_genes[!is.na(run_genes)]
   }
 
-  reader = bamReader(bam_path, idx=TRUE)
-  count = bamCountAll(reader,verbose=TRUE)
-  bamClose(reader)
-  bamTotal = sum(count[, "nAligns"])
+
+  reader = countBam(bam_path)
+  bamTotal = reader$records
+  gc()
+  # reader = bamReader(bam_path, idx=TRUE)
+  # count = bamCountAll(reader,verbose=TRUE)
+  # bamClose(reader)
+  # bamTotal = sum(count[, "nAligns"])
 
   print("estimating fragment length ...")
   paras = get_fragment_length_dist(gene_models, rowID, num_thre = 100,
@@ -261,6 +235,7 @@ aide = function(gtf_path, bam_path, fasta_path, out_dir, readLen, strandmode = 0
   print(readm)
   print(readsd)
   print(cutoff)
+  gc()
 
   print("estimating bias ...")
   gene_models_1tx = gene_models[sapply(gene_models, function(x) x$txNum) == 1]
@@ -275,8 +250,8 @@ aide = function(gtf_path, bam_path, fasta_path, out_dir, readLen, strandmode = 0
   chrstrs = sapply(chrstrs, function(x) x[1])
   names(genome) = chrstrs
 
-  starts_data = get_onetx_starts_data(gene_models_1tx, num_thre = 20, strandmode = strandmode, flag = 2,
-                                      bam_path, genome, ncores = ncores*2)
+  starts_data = get_onetx_starts_data(gene_models_1tx, num_thre = 20, strandmode = strandmode, flag = flag,
+                                      bam_path, genome, ncores = ncores)
   if(nrow(starts_data) < 1500 *2){
     bws = NULL
     print("not enough reads for estimation ...")

@@ -18,6 +18,11 @@ knitr::opts_chunk$set(
 
 ## Latest News
 
+> 2019/11/08:
+
+ + Version 1.0.0 released!
+
+ <!---
 > 2018/11/12:
 
  + Version 0.0.2 is released!
@@ -25,6 +30,7 @@ knitr::opts_chunk$set(
 > 2018/04/08:
 
  + Version 0.0.1 is released!
+ --->
  
 ## Introduction
 

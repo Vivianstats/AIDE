@@ -5,13 +5,13 @@
 get_onetx_starts_data = function(gene_models, num_thre = 10, strandmode = 0, flag = 1,
                                  bam_path, genome, ncores){
 
-  if (flag == 1){
-    sel = sample(1:length(gene_models), round(length(gene_models)/2))
+  if (flag > 0 ){
+    sel = sample(1:length(gene_models), round(length(gene_models)/flag))
     gene_models = gene_models[sel]
   }
   reads_data = mclapply(1:length(gene_models), function(ii){
-
-    if (ii %% 500 == 0) print(ii)
+    if (ii %% 50 == 0) gc()
+    if (ii %% 50 == 0) print(ii)
     cgene = gene_models[[ii]]
     genelen = sum(cgene$exonLens)
 
