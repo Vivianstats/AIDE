@@ -49,11 +49,13 @@ devtools::install_github("Vivianstats/AIDE")
 
 ## Quick start
 
-`aid` requires three input files:
+`aide` requires three input files:
 
 + The GTF file of the genome annotation;
 + The BAM file of the RNA-seq sample. The BAM file should be sorted and the index BAI file should be present in the same directory as the BAM file;
 + The FASTA file of the genome sequences.
+
+Please also note that `aide` assumes the above three files use the same format of chromosome names.
 
 The final output of `aide` is a GTF file named "transcripts.gtf", which contains the reconstructed transcripts and their corresponding abudance levels. 
 The package has been tested using the [GENCODE annotation](https://www.gencodegenes.org/releases/24.html).

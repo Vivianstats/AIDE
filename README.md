@@ -1,11 +1,12 @@
-AIDE: annotation-assisted isoform discovery and quantification from RNA-seq data
+AIDE: annotation-assisted isoform discovery and quantification from
+RNA-seq data
 ================
 Wei Vivian Li, Jingyi Jessica Li
-2019-11-08
+2022-08-05
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-Latest News
------------
+
+## Latest News
 
 > 2019/11/08:
 
@@ -21,15 +22,22 @@ Latest News
  + Version 0.0.1 is released!
  --->
 
-Introduction
-------------
+## Introduction
 
-AIDE is a statistical method which identifies full-length mRNA isoforms from a novel perspective: using the likelihood ratio test to find novel isoforms in a stepwise manner given annotated isoforms, by prioritizing and selectively borrowing information from the annotated isoforms. Please refer to our preprint at [Biorxiv](https://www.biorxiv.org/content/early/2018/10/07/437350) for detailed description of our method.
+AIDE is a statistical method which identifies full-length mRNA isoforms
+from a novel perspective: using the likelihood ratio test to find novel
+isoforms in a stepwise manner given annotated isoforms, by prioritizing
+and selectively borrowing information from the annotated isoforms.
+Please refer to our preprint at
+[Biorxiv](https://www.biorxiv.org/content/early/2018/10/07/437350) for
+detailed description of our method.
 
-Any suggestions on the package are welcome! For technical problems, please report to [Issues](https://github.com/Vivianstats/AID/issues). For suggestions and comments on the method, please contact Wei (<liw@ucla.edu>) or Dr. Jessica Li (<jli@stat.ucla.edu>).
+Any suggestions on the package are welcome! For technical problems,
+please report to [Issues](https://github.com/Vivianstats/AID/issues).
+For suggestions and comments on the method, please contact Wei
+(<liw@ucla.edu>) or Dr. Jessica Li (<jli@stat.ucla.edu>).
 
-Installation
-------------
+## Installation
 
 You can install `AIDE` from github with:
 
@@ -38,16 +46,24 @@ You can install `AIDE` from github with:
 devtools::install_github("Vivianstats/AIDE")
 ```
 
-Quick start
------------
+## Quick start
 
-`aid` requires three input files:
+`aide` requires three input files:
 
 -   The GTF file of the genome annotation;
--   The BAM file of the RNA-seq sample. The BAM file should be sorted and the index BAI file should be present in the same directory as the BAM file;
+-   The BAM file of the RNA-seq sample. The BAM file should be sorted
+    and the index BAI file should be present in the same directory as
+    the BAM file;
 -   The FASTA file of the genome sequences.
 
-The final output of `aide` is a GTF file named "transcripts.gtf", which contains the reconstructed transcripts and their corresponding abudance levels. The package has been tested using the [GENCODE annotation](https://www.gencodegenes.org/releases/24.html). This is a basic example which shows how to use the `aide` function.
+Please also note that `aide` assumes the above three files use the same
+format of chromosome names.
+
+The final output of `aide` is a GTF file named “transcripts.gtf”, which
+contains the reconstructed transcripts and their corresponding abudance
+levels. The package has been tested using the [GENCODE
+annotation](https://www.gencodegenes.org/releases/24.html). This is a
+basic example which shows how to use the `aide` function.
 
 ``` r
 aide(gtf_path = "./hg19.gtf",     #full path of the GTF file
@@ -60,4 +76,6 @@ aide(gtf_path = "./hg19.gtf",     #full path of the GTF file
     )
 ```
 
-Please refer to the package [manual](https://github.com/Vivianstats/AIDE/blob/master/inst/docs/) for a full list of arguments and detailed usage.
+Please refer to the package
+[manual](https://github.com/Vivianstats/AIDE/blob/master/inst/docs/) for
+a full list of arguments and detailed usage.

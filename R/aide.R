@@ -30,14 +30,14 @@ main = function(cgene, bam_path, bamTotal, readLen, cutoff, readm, readsd,
     }else if (n <= 15 ){
       IsoM = try(filter_Isomat_by_reads_nlarge(reads, nExon=n, exon_len, readLen, cutoff, nthre = n-8),
                  silent = TRUE)
-      if (class(IsoM) == "matrix"){
+      if ("matrix" %in% class(IsoM)){
         IsoM = rbind(IsoM, IsoM_annt)
         IsoM = unique(IsoM, MARGIN = 1)
       }
     }else if (n <= ne){
       IsoM = try(filter_Isomat_by_reads_nlarge(reads, nExon=n, exon_len, readLen, cutoff, nthre = n-6),
                  silent = TRUE)
-      if (class(IsoM) == "matrix"){
+      if ("matrix" %in% class(IsoM)){
         IsoM = rbind(IsoM, IsoM_annt)
         IsoM = unique(IsoM, MARGIN = 1)
       }else{ IsoM = IsoM_annt}
@@ -59,7 +59,7 @@ main = function(cgene, bam_path, bamTotal, readLen, cutoff, readm, readsd,
       }
       # if(class(IsoM) == "try-error") print(IsoM)
       # print(paste("n", nrow(IsoM)))
-      if (class(IsoM) == "matrix"){
+      if ("matrix" %in% class(IsoM)){
         IsoM = rbind(IsoM, IsoM_annt)
       }else{ IsoM = IsoM_annt }
     }
