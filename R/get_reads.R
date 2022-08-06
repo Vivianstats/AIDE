@@ -31,7 +31,7 @@ get_reads = function(cgene, num_thre, bam_path, strandmode = 0){
 
     ind = (indexStarts - 1 == indexEnds)
   })
-  if (class(indNoIntron) == "matrix"){
+  if ("matrix" %in% class(indNoIntron)){
     indNoIntron = rowSums(indNoIntron) == 4
   }else {return(NULL)}
 

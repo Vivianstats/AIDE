@@ -33,7 +33,7 @@ get_reads_from_bam = function(cgene, num_thre, bam_path, strandmode = 0){
     indexEnds <- findInterval(reads4dim[,k], cgene$exonEnds + 1)
     ind = (indexStarts - 1 == indexEnds)
   })
-  if (class(indNoIntron) == "matrix"){
+  if ("matrix" %in% class(indNoIntron)){
     indNoIntron = rowSums(indNoIntron) == 4
   }else {return(NULL)}
 
